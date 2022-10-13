@@ -7,7 +7,10 @@ def main():
     steps = activity[["Datum", "Schritte"]]
 
     steps["Schritte"] = pd.to_numeric(steps["Schritte"])
-       
+    steps["Datum"] = pd.to_datetime(steps["Datum"], dayfirst=True)
+    steps.plot(x="Datum")
+    plt.show()
+    
 
 if __name__ == "__main__":
     main();
