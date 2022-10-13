@@ -2,16 +2,21 @@ import matplotlib.pyplot as plt
 import csv
 
 def main():
-    activities = get_csv("csv_data/activity.csv")
-    sleeps = get_csv("csv_data/sleep.csv")
+    _, activities = get_csv("csv_data/activity.csv")
+    _, sleeps = get_csv("csv_data/sleep.csv")
+    print(activities)
+    print(sleeps)
 
 def get_csv(file_name: str) -> list:
     with open(file_name, "r") as file:
-        data = csv.reader(file):
-    return_value = []
-    for row in data:
-        return_value.append(row)
-
+        csvreader = csv.reader(file)
+        header = []
+        header = next(csvreader)
+        header.append(header)
+        data = []
+        for row in csvreader:
+            data.append(row)
+    return header, data
 
 if __name__ == "__main__":
     main();
