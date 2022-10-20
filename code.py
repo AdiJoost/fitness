@@ -8,12 +8,14 @@ def main():
 
     steps.loc["Schritte"] = pd.to_numeric(steps["Schritte"])
     steps.loc["Datum"] = pd.to_datetime(steps["Datum"], dayfirst=True)
+    steps.loc["Schritte"] = steps["Schritte"] / 1000
 
     sleeps = pd.read_csv("csv_data/cool_sleeps_singleton.csv")
     sleeps["Datum"] = pd.to_datetime(sleeps["Startzeit"], dayfirst=True).dt.date
     sleep_time = sleeps[["Datum", "Minuten geschlafen"]]
     sleep_time.loc["Minuten geschlafen"] = pd.to_numeric(sleep_time["Minuten geschlafen"])
-    sleep_time["Minuten geschlafen"] = sleep_time["Minuten geschlafen"] * 50
+    sleep_time.loc["Minuten geschlafen"] = sleep_time["Minuten geschlafen"] * 100
+    
     
 
     my_data = pd.concat([steps, sleep_time], axis=1)
