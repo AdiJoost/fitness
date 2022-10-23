@@ -35,8 +35,20 @@ def getCoolNumbers (df, path, weekday, isInternet=0, col="StepTotal"):
     median = getMedian(df, col=col)
     rmse = getRMSE(df, mean, col=col)
     mae = getMAE(df, mean, col = col)
-    coolNumbers = (weekday, mean, median, rmse, mae, isInternet)
+    nrsme = getNormalizedRMSE(rmse, df[col].max(), df[col].min())
+    nmae = getNormalizedMAE(mae, df[col].max(), df[col].min())
+    coolNumbers = (weekday, mean, median, rmse, 
+    "{:.3f}".format(nrsme), mae, "{:.3f}".format(nmae), isInternet)
     Logger.log_csv(coolNumbers, path)
+
+def getNormalizedRMSE(RMSE, maxVal, minVal):
+    if maxVal <= minVal:
+        return -1
+    return RMSE /(maxVal-minVal)
+def getNormalizedMAE(MAE, maxVal, minVal):
+    if maxVal <= minVal:
+        return -1
+    return MAE /(maxVal-minVal)
 
 def evaluateCSV(weekday, path="coolNumbers", isInternet=False):
     if isInternet:
@@ -46,11 +58,11 @@ def evaluateCSV(weekday, path="coolNumbers", isInternet=False):
     df = pd.read_csv(myPath)
     getCoolNumbers(df, path, weekday, isInternet=isInternet)
 
-for i in range(6):
-    evaluateCSV(i, path="internetMetaData", isInternet=True)
+for i in range(7):
+    evaluateCSV(i, path="NinternetMetaData", isInternet=True)
 
-for i in range(6):
-    evaluateCSV(i, path="PersonMetaData", isInternet=False)
+for i in range(7):
+    evaluateCSV(i, path="NpersonMetaData", isInternet=False)
 
 
 

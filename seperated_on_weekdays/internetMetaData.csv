@@ -5,3 +5,4 @@ Weekday,MeanSteps,MedianSteps,RMSE,MAE,isInternet
 3,7405,7860,4990,4144,True
 4,7448,7451,4629,3711,True
 5,8152,6987,5920,4631,True
+6,6933,6083,5620,4263,True
