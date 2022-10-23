@@ -3,7 +3,7 @@ from datetime import datetime
 
 class Logger():
     csv_header = \
-    "Weekday,MeanSteps,MedianSteps,RMSE,MAE,\n"
+    "Weekday,MeanSteps,MedianSteps,RMSE,MAE,isInternet\n"
     def __init__(self):
         pass
     
