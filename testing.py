@@ -1,38 +1,41 @@
 from datetime import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn import datasets
 
 def getDay(dates):
     returnList = []
     for day in dates:
-        returnList.append(day.weekday() <= 4)
+        returnList.append(day.weekday())
     return returnList
 
-dataSet = pd.read_csv("csv_data/thereCantBeOnlyTwo.csv")
+
+
+df = pd.read_csv("csv_data/thereCantBeOnlyTwo.csv")
+df["ActivityDay"] = pd.to_datetime(df["ActivityDay"])
+df["dayOfWeek"] = getDay(df["ActivityDay"])
+newDf = df[["ActivityDay", "StepTotal", "dayOfWeek"]]
+for day in range(7):
+    mayDay = newDf.loc[newDf["dayOfWeek"] == day]
+    mayDay.to_csv(f"seperated_on_weekdays/day{day}_Person.csv")
+
+"""
+dataSet = pd.read_csv("csv_data/internetSet.csv")
 dataSet["ActivityDay"] = pd.to_datetime(dataSet["ActivityDay"])
 dataSet["dayOfWeek"] = getDay(dataSet["ActivityDay"])
 steps = dataSet[["StepTotal", "dayOfWeek"]]
-plt.scatter(dataSet.index, dataSet["StepTotal"], c=dataSet["dayOfWeek"])
+dataSet = dataSet.sort_values(by=["dayOfWeek"])
+dataSet.plot(kind="scatter", x=range(5), y=range(5))
 plt.show()
 
+print(dataSet.head(20))
 
-
-total_steps = 0
-total_steps_divisor = 0
-weekend_steps = 0
-weekend_steps_divisor = 0
-weekday_steps = 0
-weekday_steps_divisor = 0
+sorted = [[],[],[],[],[],[],[]]
 for index, row in dataSet.iterrows():
-    total_steps += int(row["StepTotal"])
-    total_steps_divisor += 1
-    if (row["dayOfWeek"]):
-        weekday_steps += int(row["StepTotal"])
-        weekday_steps_divisor += 1
-    else:
-        weekend_steps += int(row["StepTotal"])
-        weekend_steps_divisor += 1
+    sorted[row["dayOfWeek"]].append(row["StepTotal"])
+    
+results = []
+for days in sorted:
+    results.append(sum(days)/len(days))
 
-print(f"Weekday_avrg: {weekday_steps/weekday_steps_divisor}"\
-    f"\nWeekend_avrg: {weekend_steps/weekend_steps_divisor}"\
-        f"\nTotal_avrg: {total_steps/total_steps_divisor}")
+print(results)"""
